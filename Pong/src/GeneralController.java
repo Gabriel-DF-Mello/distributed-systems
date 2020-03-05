@@ -22,27 +22,5 @@ public class GeneralController {
         this.board = game;
     }
     
-    public void moveUp(int n){
-        if(obj.getY() + n > 4){
-            obj.setLocation(obj.getX(), obj.getY() - n);
-        }
-    }
     
-    public void moveDown(int n){
-        if(obj.getY() + obj.getHeight() + n < board.getHeight()){
-            obj.setLocation(obj.getX(), obj.getY() + n);
-        }
-    }
-    
-    public void moveRight(int n){
-        if(obj.getX() + obj.getWidth() + n < board.getWidth()){
-            obj.setLocation(obj.getX() + n, obj.getY());
-        }
-    }
-    
-    public void moveLeft(int n){
-        if(obj.getX() - n > 4){
-            obj.setLocation(obj.getX() - n, obj.getY());
-        }
-    }
 }

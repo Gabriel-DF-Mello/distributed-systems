@@ -22,14 +22,13 @@ public class PlayerController implements Runnable {
     
     JButton player;
     JPanel board;
-    GeneralController ctrl;
-    int delay = 10;
+    int speed = 4;
+    int delay = 23;
     boolean moveUp = false, moveDown = false;
     
     PlayerController(JButton player, JPanel board){
         this.player = player;
         this.board = board;
-        ctrl = new GeneralController(player, board);
     }
     
     @Override
@@ -40,11 +39,11 @@ public class PlayerController implements Runnable {
             while(true) 
             {
                 if(moveUp){
-                    ctrl.moveUp(3);
+                    moveUp(speed);
                 }
 
                 else if(moveDown){
-                    ctrl.moveDown(3);
+                    moveDown(speed);
                 }
             Thread.sleep(delay);
             }
@@ -69,5 +68,16 @@ public class PlayerController implements Runnable {
         this.moveDown = moveDown;
     }
     
+    public void moveUp(int n){
+        if(player.getY() + n > 6){
+            player.setLocation(player.getX(), player.getY() - n);
+        }
+    }
+    
+    public void moveDown(int n){
+        if(player.getY() + player.getHeight() + n < board.getHeight()){
+            player.setLocation(player.getX(), player.getY() + n);
+        }
+    }
     
 }
