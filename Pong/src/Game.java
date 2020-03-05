@@ -80,13 +80,13 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
-        jButtonPlayer2.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonPlayer2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 204, 255), 3, true));
+        jButtonPlayer2.setBackground(new java.awt.Color(51, 204, 255));
+        jButtonPlayer2.setBorder(null);
         jButtonPlayer2.setFocusable(false);
 
-        jButtonPlayer1.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonPlayer1.setBackground(new java.awt.Color(255, 153, 51));
         jButtonPlayer1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jButtonPlayer1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(247, 150, 4), 3, true));
+        jButtonPlayer1.setBorder(null);
         jButtonPlayer1.setFocusable(false);
 
         jButtonBall.setBackground(new java.awt.Color(255, 255, 255));
@@ -121,7 +121,7 @@ public class Game extends javax.swing.JFrame {
                 .addComponent(jButtonPlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(85, 85, 85)
                 .addComponent(jButtonBall, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addComponent(jButtonPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -199,7 +199,7 @@ public class Game extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1KeyPressed
 
     private void jPanelGameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanelGameKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_UP)
+        if (evt.getKeyCode() == KeyEvent.VK_W)
         {
            p1.setMoveUp(true);
            if (pt1.isAlive()) 
@@ -210,7 +210,7 @@ public class Game extends javax.swing.JFrame {
             pt1.start();
         }
 
-        if (evt.getKeyCode() == KeyEvent.VK_DOWN){
+        if (evt.getKeyCode() == KeyEvent.VK_S){
            p1.setMoveDown(true);
            if (pt1.isAlive()) 
             {
@@ -220,7 +220,7 @@ public class Game extends javax.swing.JFrame {
             pt1.start();
         }
 
-        if (evt.getKeyCode() == KeyEvent.VK_W){
+        if (evt.getKeyCode() == KeyEvent.VK_UP){
            p2.setMoveUp(true);
            if (pt2.isAlive()) 
             {
@@ -230,7 +230,7 @@ public class Game extends javax.swing.JFrame {
             pt2.start();
         }
 
-        if (evt.getKeyCode() == KeyEvent.VK_S){
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN){
            p2.setMoveDown(true);
            if (pt2.isAlive()) 
             {
@@ -248,12 +248,13 @@ public class Game extends javax.swing.JFrame {
                 score.resetScore();
             }else{
                ball.startRound();
+               score.setInstructions("Jogando...");
            }
         }
     }//GEN-LAST:event_jPanelGameKeyPressed
 
     private void jPanelGameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanelGameKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_UP){
+        if (evt.getKeyCode() == KeyEvent.VK_W){
             p1.setMoveUp(false);
             if (pt1.isAlive()) 
             {
@@ -261,7 +262,7 @@ public class Game extends javax.swing.JFrame {
             }
          }
 
-         if (evt.getKeyCode() == KeyEvent.VK_DOWN){
+         if (evt.getKeyCode() == KeyEvent.VK_S){
             p1.setMoveDown(false);
             if (pt1.isAlive()) 
             {
@@ -269,7 +270,7 @@ public class Game extends javax.swing.JFrame {
             }
          }
 
-         if (evt.getKeyCode() == KeyEvent.VK_W){
+         if (evt.getKeyCode() == KeyEvent.VK_UP){
             p2.setMoveUp(false);
             if (pt2.isAlive()) 
             {
@@ -277,7 +278,7 @@ public class Game extends javax.swing.JFrame {
             }
          }
 
-         if (evt.getKeyCode() == KeyEvent.VK_S){
+         if (evt.getKeyCode() == KeyEvent.VK_DOWN){
             p2.setMoveDown(false);
             if (pt2.isAlive()) 
             {
