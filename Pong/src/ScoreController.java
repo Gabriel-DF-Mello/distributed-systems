@@ -28,7 +28,6 @@ public class ScoreController {
     public void increaseScore(int n){
         if(n == 1){
             p1_score += 1;
-            
             if(p1_score == 6){
                 label_p1_score.setText("W");
                 instructions.setText("JOGADOR LARANJA GANHOU!!!");
@@ -44,7 +43,7 @@ public class ScoreController {
                 instructions.setText("JOGADOR AZUL GANHOU!!!");
                 game_ended = true;
             }else{
-                label_p1_score.setText("" + p2_score);
+                label_p2_score.setText("" + p2_score);
                 instructions.setText("Jogador Azul marcou um ponto");
             }
         }
