@@ -22,6 +22,7 @@ public class Game extends javax.swing.JFrame {
     static PlayerController p1;
     static PlayerController p2;
     static BallController ball;
+    static ScoreController score;
     
     Thread pt1;
     Thread pt2;
@@ -31,7 +32,8 @@ public class Game extends javax.swing.JFrame {
         initComponents();
         p1 = new PlayerController(jButtonPlayer1, jPanelGame);
         p2 = new PlayerController(jButtonPlayer2, jPanelGame);
-        ball = new BallController(jPanelGame, jButtonBall, jButtonPlayer1, jButtonPlayer2, jLabelScorePlayer1, jLabelScorePlayer2);
+        score = new ScoreController(jLabelScorePlayer1, jLabelScorePlayer2, jLabelInstructions);
+        ball = new BallController(jPanelGame, jButtonBall, jButtonPlayer1, jButtonPlayer2, score);
         
         pt1 = new Thread(p1);
         pt2 = new Thread(p2);
@@ -57,10 +59,9 @@ public class Game extends javax.swing.JFrame {
         jButtonPlayer1 = new javax.swing.JButton();
         jButtonBall = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabelPlayer1 = new javax.swing.JLabel();
-        jLabelPlayer2 = new javax.swing.JLabel();
         jLabelScorePlayer1 = new javax.swing.JLabel();
         jLabelScorePlayer2 = new javax.swing.JLabel();
+        jLabelInstructions = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(775, 620));
@@ -80,9 +81,12 @@ public class Game extends javax.swing.JFrame {
         });
 
         jButtonPlayer2.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonPlayer2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 204, 255), 3, true));
         jButtonPlayer2.setFocusable(false);
 
         jButtonPlayer1.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonPlayer1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jButtonPlayer1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(247, 150, 4), 3, true));
         jButtonPlayer1.setFocusable(false);
 
         jButtonBall.setBackground(new java.awt.Color(255, 255, 255));
@@ -96,12 +100,12 @@ public class Game extends javax.swing.JFrame {
         jPanelGameLayout.setHorizontalGroup(
             jPanelGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelGameLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanelGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGameLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonPlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelGameLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jButtonPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -114,11 +118,11 @@ public class Game extends javax.swing.JFrame {
             jPanelGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelGameLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonPlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
+                .addComponent(jButtonPlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
                 .addComponent(jButtonBall, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                .addComponent(jButtonPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addComponent(jButtonPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -128,43 +132,42 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
-        jLabelPlayer1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabelPlayer1.setText("Player 1: ");
-
-        jLabelPlayer2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabelPlayer2.setText(" :Player 2");
-
-        jLabelScorePlayer1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabelScorePlayer1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabelScorePlayer1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelScorePlayer1.setText("0");
+        jLabelScorePlayer1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabelScorePlayer2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabelScorePlayer2.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabelScorePlayer2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelScorePlayer2.setText("0");
+        jLabelScorePlayer2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabelInstructions.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabelInstructions.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelInstructions.setText("Inicie com Espaço");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabelPlayer1)
+                .addGap(25, 25, 25)
+                .addComponent(jLabelScorePlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelScorePlayer1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelScorePlayer2)
+                .addComponent(jLabelInstructions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelPlayer2)
-                .addGap(34, 34, 34))
+                .addComponent(jLabelScorePlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelPlayer1)
-                    .addComponent(jLabelPlayer2)
+                    .addComponent(jLabelScorePlayer2)
                     .addComponent(jLabelScorePlayer1)
-                    .addComponent(jLabelScorePlayer2))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(jLabelInstructions))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -242,7 +245,10 @@ public class Game extends javax.swing.JFrame {
             {
                 ballt = new Thread(ball);
                 ballt.start();
-            }
+                score.resetScore();
+            }else{
+               ball.startRound();
+           }
         }
     }//GEN-LAST:event_jPanelGameKeyPressed
 
@@ -319,8 +325,7 @@ public class Game extends javax.swing.JFrame {
     private javax.swing.JButton jButtonBall;
     private javax.swing.JButton jButtonPlayer1;
     private javax.swing.JButton jButtonPlayer2;
-    private javax.swing.JLabel jLabelPlayer1;
-    private javax.swing.JLabel jLabelPlayer2;
+    private javax.swing.JLabel jLabelInstructions;
     private javax.swing.JLabel jLabelScorePlayer1;
     private javax.swing.JLabel jLabelScorePlayer2;
     private javax.swing.JPanel jPanel1;
