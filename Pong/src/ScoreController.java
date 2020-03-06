@@ -51,6 +51,8 @@ public class ScoreController {
         p1_score = 0;
         p2_score = 0;
         
+        game_ended = false;
+        
         label_p1_score.setText("" + p1_score);
         label_p2_score.setText("" + p2_score);
         

@@ -22,7 +22,7 @@ public class BallController implements Runnable {
     ScoreController score;
     int collision_counter = 0;
     boolean on_round = false;
-    int delay = 13;
+    int delay = 14;
     int l_speed = 0;
     int v_speed = 0;
     boolean moveUp = false, moveDown = false, moveRight = false, moveLeft = false;
@@ -38,6 +38,7 @@ public class BallController implements Runnable {
     
     @Override
     public void run() {
+        on_round = false;
         startRound();
         while(true){
             try
@@ -132,12 +133,13 @@ public class BallController implements Runnable {
     
     public void startRound(){
         if(!on_round){
+            score.setInstructions("Jogando...");
             if(score.game_ended){
                 score.resetScore();
             }
-            on_round = true;
+            on_round = true; 
             int val = (int) (Math.random() * (4 - 1 + 1) + 1);
-            delay = 13;
+            delay = 14;
             switch (val){
                 case 1:{
                     moveLeft = true;
@@ -175,17 +177,17 @@ public class BallController implements Runnable {
             switch (speed){
                 case 1:{
                     l_speed = 3;
-                    v_speed = 2;
+                    v_speed = 4;
                     break;
                 }
                 case 2:{
-                    l_speed = 2;
+                    l_speed = 3;
                     v_speed = 3;
                     break;
                 }
                 case 3:{
-                    l_speed = 3;
-                    v_speed = 3;
+                    l_speed = 4;
+                    v_speed = 2;
                     break;
                 }
                 case 4:{
