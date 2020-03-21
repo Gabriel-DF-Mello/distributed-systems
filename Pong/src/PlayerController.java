@@ -22,8 +22,8 @@ public class PlayerController implements Runnable {
     
     JButton player;
     JPanel board;
-    int speed = 4;
-    int delay = 13;
+    int speed = 2;
+    int delay = 4;
     boolean moveUp = false, moveDown = false;
     
     PlayerController(JButton player, JPanel board){
