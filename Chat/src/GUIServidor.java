@@ -2,6 +2,7 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -156,6 +157,7 @@ public class GUIServidor extends javax.swing.JFrame {
             cliente = servidor.accept();
             escritor = new DataOutputStream(cliente.getOutputStream());
             leitor = new DataInputStream(cliente.getInputStream());
+            
             
             String msg_in = "";
             while(!msg_in.equals("exit"))

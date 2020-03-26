@@ -1,9 +1,16 @@
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
@@ -17,29 +24,54 @@ import javax.swing.KeyStroke;
  *
  * @author usrlab01
  */
-public class Game extends javax.swing.JFrame {
+public class GameServer extends javax.swing.JFrame {
 
     static PlayerController p1;
-    static PlayerController p2;
     static BallController ball;
     static ScoreController score;
     
-    static Thread pt1;
-    static Thread pt2;
-    static Thread ballt;
+    Thread pt1;
+    Thread ballt;
     
-    public Game() {
+    static int porta = 1201;
+    static ServerSocket servidor;
+    static Socket cliente;
+    static ObjectInputStream leitor;
+    static ObjectOutputStream escritor;
+    
+    public GameServer() {
         initComponents();
-        p1 = new PlayerController(jButtonPlayer1, jPanelGame);
-        p2 = new PlayerController(jButtonPlayer2, jPanelGame);
+        p1 = new PlayerController(jButtonPlayer1, jPanelGame, 1);
         score = new ScoreController(jLabelScorePlayer1, jLabelScorePlayer2, jLabelInstructions);
         ball = new BallController(jPanelGame, jButtonBall, jButtonPlayer1, jButtonPlayer2, score);
         
         pt1 = new Thread(p1);
-        pt2 = new Thread(p2);
         ballt = new Thread(ball);
-
         jPanelGame.requestFocus();
+        
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    servidor = new ServerSocket(porta);
+                    cliente = servidor.accept();
+                    escritor = new ObjectOutputStream(cliente.getOutputStream());
+                    leitor = new ObjectInputStream(cliente.getInputStream());
+                    p1.setWriter(escritor);
+                    ball.setWriter(escritor);
+                    //para enviar ao jogador 1
+                    //ATENÇAO... a sequencia de instanciacao dever ser 1o o saida e 2o o entrada
+                   
+                    while (true) {
+                        Info info = (Info) leitor.readObject();
+                        System.out.println("I AM HERE");
+                        jButtonPlayer2.setLocation(info.getX(), info.getY());
+                    }
+                } catch (Exception e) {
+                    System.out.println("Erro: " + e.getMessage());
+                }
+            }
+        }.start();
     }
 
     /**
@@ -64,9 +96,11 @@ public class Game extends javax.swing.JFrame {
         jLabelInstructions = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(775, 620));
-        setMinimumSize(new java.awt.Dimension(770, 536));
-        setPreferredSize(new java.awt.Dimension(775, 577));
+        setAutoRequestFocus(false);
+        setMaximumSize(new java.awt.Dimension(770, 590));
+        setMinimumSize(new java.awt.Dimension(770, 590));
+        setPreferredSize(new java.awt.Dimension(770, 590));
+        setResizable(false);
 
         jPanelGame.setBackground(new java.awt.Color(51, 51, 51));
         jPanelGame.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -93,7 +127,13 @@ public class Game extends javax.swing.JFrame {
         jButtonBall.setFocusable(false);
         jButtonBall.setMaximumSize(new java.awt.Dimension(33, 33));
         jButtonBall.setMinimumSize(new java.awt.Dimension(33, 33));
+        jButtonBall.setName("ball"); // NOI18N
         jButtonBall.setPreferredSize(new java.awt.Dimension(33, 33));
+        jButtonBall.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBallActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelGameLayout = new javax.swing.GroupLayout(jPanelGame);
         jPanelGame.setLayout(jPanelGameLayout);
@@ -102,24 +142,24 @@ public class Game extends javax.swing.JFrame {
             .addGroup(jPanelGameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(348, 348, 348)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 348, Short.MAX_VALUE)
                 .addComponent(jButtonBall, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 349, Short.MAX_VALUE)
+                .addGap(345, 345, 345)
                 .addComponent(jButtonPlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanelGameLayout.setVerticalGroup(
             jPanelGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelGameLayout.createSequentialGroup()
-                .addGroup(jPanelGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonPlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelGameLayout.createSequentialGroup()
-                            .addGap(181, 181, 181)
-                            .addComponent(jButtonBall, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonPlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanelGameLayout.createSequentialGroup()
                             .addGap(150, 150, 150)
-                            .addComponent(jButtonPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jButtonPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelGameLayout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addComponent(jButtonBall, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(191, Short.MAX_VALUE))
         );
 
@@ -216,26 +256,6 @@ public class Game extends javax.swing.JFrame {
             pt1 = new Thread(p1);
             pt1.start();
         }
-
-        if (evt.getKeyCode() == KeyEvent.VK_UP){
-           p2.setMoveUp(true);
-           if (pt2.isAlive()) 
-            {
-                pt2.interrupt();
-            }
-            pt2 = new Thread(p2);
-            pt2.start();
-        }
-
-        if (evt.getKeyCode() == KeyEvent.VK_DOWN){
-           p2.setMoveDown(true);
-           if (pt2.isAlive()) 
-            {
-                pt2.interrupt();
-            }
-            pt2 = new Thread(p2);
-            pt2.start();
-        }
         
         if (evt.getKeyCode() == KeyEvent.VK_SPACE){
            if (!ballt.isAlive()) 
@@ -243,6 +263,13 @@ public class Game extends javax.swing.JFrame {
                 ballt = new Thread(ball);
                 ballt.start();
                 score.resetScore();
+                synchronized(escritor){
+                    try {
+                        escritor.writeObject(new Info(jButtonBall.getX(), jButtonBall.getY(), 0, 3));
+                    } catch (IOException ex) {
+                        Logger.getLogger(GameServer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }else{
                ball.startRound();
            }
@@ -256,6 +283,11 @@ public class Game extends javax.swing.JFrame {
             {
                 pt1.interrupt();
             }
+            try {
+                escritor.writeObject(new Info(jButtonPlayer1.getX(), jButtonPlayer1.getY(), 1));
+            } catch (IOException ex) {
+                Logger.getLogger(GameServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
          }
 
          if (evt.getKeyCode() == KeyEvent.VK_S){
@@ -264,9 +296,14 @@ public class Game extends javax.swing.JFrame {
             {
                 pt1.interrupt();
             }
+            try {
+                escritor.writeObject(new Info(jButtonPlayer1.getX(), jButtonPlayer1.getY(), 1));
+            } catch (IOException ex) {
+                Logger.getLogger(GameServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
          }
 
-         if (evt.getKeyCode() == KeyEvent.VK_UP){
+         /*if (evt.getKeyCode() == KeyEvent.VK_UP){
             p2.setMoveUp(false);
             if (pt2.isAlive()) 
             {
@@ -280,8 +317,12 @@ public class Game extends javax.swing.JFrame {
             {
                 pt2.interrupt();
             }
-         }
+         }*/
     }//GEN-LAST:event_jPanelGameKeyReleased
+
+    private void jButtonBallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBallActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonBallActionPerformed
 
     /**
      * @param args the command line arguments
@@ -300,20 +341,21 @@ public class Game extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameServer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameServer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameServer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameServer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Game().setVisible(true);
+                new GameServer().setVisible(true);
             }
         });
     }
