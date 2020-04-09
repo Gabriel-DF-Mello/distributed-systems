@@ -94,10 +94,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jButtonPlayer2" min="-2" pref="85" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="jButtonPlayer2" min="-2" pref="85" max="-2" attributes="0"/>
                               <Component id="jButtonPlayer1" min="-2" pref="85" max="-2" attributes="0"/>
                           </Group>
                       </Group>
