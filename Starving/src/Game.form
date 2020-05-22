@@ -84,7 +84,7 @@
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Component id="panelBoard" min="-2" pref="1630" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="panelScore" min="-2" max="-2" attributes="0"/>
+              <Component id="panelScore" max="32767" attributes="0"/>
               <EmptySpace pref="26" max="32767" attributes="0"/>
           </Group>
       </Group>

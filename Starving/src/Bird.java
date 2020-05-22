@@ -14,13 +14,12 @@ public class Bird implements Runnable {
     
     Info info;
     JButton sprite;
-    int order;
     private int direction = Game.NONE;
     private final int spd = 1;
-    private final int delay = 2;
+    private final int delay = 3;
 
-    public Bird(int order) {
-        this.generateSprite();
+    public Bird(String name, int order) {
+        this.generateSprite(order);
         sprite.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                if (evt.getKeyCode() == KeyEvent.VK_W){
@@ -41,7 +40,7 @@ public class Bird implements Runnable {
                 }
             }
         });
-        this.setInfo(new Info("Tester", this.getSprite(), this.order, 0));
+        this.setInfo(new Info(name, this.getSprite(), order, 0));
         this.start();
     }
     
@@ -70,13 +69,14 @@ public class Bird implements Runnable {
                     this.updateInfo();
                 }
                 Thread.sleep(delay);
+                
             }
         }catch(InterruptedException ex){
             
         }
     }
     
-    public void generateSprite()
+    public void generateSprite(int order)
     {
         sprite = new JButton();
         Game.panelBoard.add(sprite);
@@ -84,7 +84,7 @@ public class Bird implements Runnable {
         sprite.setSize(52, 52);
         sprite.setBackground(new Color(102,204,255));
         sprite.setForeground(new Color(51,51,51));
-        sprite.setText(">" + String.valueOf(this.order) + "<");
+        sprite.setText(">" + String.valueOf(order) + "<");
         sprite.setFont(new Font("Tahoma", Font.BOLD, 10));
         sprite.requestFocus();
         sprite.setLocation(Game.panelBoard.getX() + 10, Game.panelBoard.getY() + 10);
@@ -97,7 +97,7 @@ public class Bird implements Runnable {
     }
     
     public void updateInfo(){
-        this.setInfo(new Info(this.info.name, this.getSprite(), this.order, this.info.score));
+        this.setInfo(new Info(this.info.name, this.getSprite(), this.info.order, this.info.score));
     }
 
     private void keyReleased(java.awt.event.KeyEvent evt) {                                       
@@ -142,17 +142,8 @@ public class Bird implements Runnable {
         this.direction = direction;
     }
     
-    public boolean colided(Info object){
-        if(this.info.shape.intersects(object.shape)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
     
     public void move(int dir, int spd){
-        System.out.println(Game.bounds);
         System.out.println(this.info.shape);
         if(dir == Game.UP){
             if(!this.info.shape.intersects(Game.bounds[Game.UP])){

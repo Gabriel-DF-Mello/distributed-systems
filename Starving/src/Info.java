@@ -25,9 +25,6 @@ public class Info implements Serializable {
         this.order = order;
         this.score = score;
     }
-    
-    
-    
 }
 
 

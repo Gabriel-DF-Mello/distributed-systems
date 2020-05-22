@@ -1,6 +1,8 @@
 
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 
 /**
  *
@@ -10,6 +12,8 @@ public class Game extends javax.swing.JFrame {
     public static Rectangle bounds[];
     public static ArrayList<Bird> players;
     public static Fruit fruit;
+    public static ArrayList<Integer> scores;
+    public static boolean score_changed = false;
     
     public static final int NONE = -1;
     public static final int UP = 0;
@@ -17,16 +21,25 @@ public class Game extends javax.swing.JFrame {
     public static final int DOWN = 2;
     public static final int LEFT = 3;
     
+    Thread score;
+    
     public Game() {
         initComponents();
         bounds = new Rectangle[4];
+        players = new ArrayList<Bird>();
+        scores = new ArrayList<Integer>();
         
         bounds[UP] = new Rectangle(0, 1, panelBoard.getWidth(), 1);
         bounds[RIGHT] = new Rectangle(panelBoard.getWidth() - 1, panelBoard.getY(), 1, panelBoard.getHeight());
         bounds[DOWN] = new Rectangle(0, panelBoard.getHeight() - 1, panelBoard.getWidth(), 1);
         bounds[LEFT] = new Rectangle(0, panelBoard.getY(), 1, panelBoard.getHeight());
         
-        Bird b = new Bird(0);
+        Bird b = new Bird("Tester", 0);
+        players.add(b);
+        scores.add(0);
+        
+        Fruit f = new Fruit();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -94,7 +107,7 @@ public class Game extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(panelBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 1630, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(panelScore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelScore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
