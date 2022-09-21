@@ -19,6 +19,8 @@ public class GUI extends javax.swing.JFrame {
     
     public GUI() {
         initComponents();
+        txtIP.setEnabled(false);
+        txtPort.setEnabled(false);
     }
     
     
@@ -169,18 +171,17 @@ public class GUI extends javax.swing.JFrame {
     private void btnConnectMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConnectMouseReleased
         String user = txtUser.getText();
         String ip = txtIP.getText();
-        int port = Integer.parseInt(txtPort.getText());
-        
-        con = new EmitterReceiver(user, ip, port, txtSender, txtLog);
+        //int port = Integer.parseInt(txtPort.getText());
+        int port = 2345;
         
         txtUser.setEnabled(false);
-        txtIP.setEnabled(false);
-        txtPort.setEnabled(false);
         btnConnect.setEnabled(false);
         
         txtLog.setEnabled(true);
         txtSender.setEnabled(true);
         btnSend.setEnabled(true);
+        
+        con = new EmitterReceiver(user, ip, port, txtSender, txtLog);
     }//GEN-LAST:event_btnConnectMouseReleased
 
     
